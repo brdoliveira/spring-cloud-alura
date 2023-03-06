@@ -1,4 +1,7 @@
 package br.com.car.domain.http
 
-class CarHttp {
-}
+data class CarHttp(
+    val make: String,
+    val model: String,
+    val year: Long
+)
