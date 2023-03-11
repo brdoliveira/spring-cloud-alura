@@ -5,6 +5,7 @@ import br.com.car.core.converter.CarHttpToModelConverter
 import br.com.car.domain.model.Car
 import br.com.car.domain.ports.CarRepository
 import br.com.car.domain.ports.CarService
+import kotlinx.coroutines.coroutineScope
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
@@ -32,10 +33,7 @@ internal class CarService(
         return carRepository.findById(id) ?: throw RuntimeException()
     }
 
-    override fun listByInventory(model: String): List<Car>? =
-        carHttpService.getByModel(model)
-            .execute()
-            .body()?.let { listCarHttp ->
-                CarHttpToModelConverter.toModel(listCarHttp)
-            }
+    override suspend fun listByInventory(model: String): List<Car>? = coroutineScope {
+        carHttpService.getByModel(model).let(CarHttpToModelConverter::toModel)
+    }
 }
