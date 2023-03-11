@@ -5,7 +5,7 @@ import io.kotest.matchers.shouldBe
 
 class CarTest : FunSpec({
 
-    val car = CaxFixture.getCar()
+    val car = CarFixture.getCar()
 
     test("should return isEligible for uber when year is greater than 2008") {
         val actual = car.isEligibleToUber()
